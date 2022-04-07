@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>DapperAndEFCore.Application</RootNamespace>
+        <RootNamespace>Application</RootNamespace>
         <AssemblyName>DapperAndEFCore.Application</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>

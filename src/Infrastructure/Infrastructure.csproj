@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>DapperAndEFCore.Infrastructure</RootNamespace>
+        <RootNamespace>Infrastructure</RootNamespace>
         <AssemblyName>DapperAndEFCore.Infrastructure</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
