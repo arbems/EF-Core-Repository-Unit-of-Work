@@ -3,9 +3,9 @@ using Domain.ValueObjects;
 
 namespace Infrastructure.Persistence;
 
-public static class ApplicationDbContextSeed
+public static class ApplicationContextSeed
 {
-    public static async Task SeedSampleDataAsync(ApplicationDbContext context)
+    public static async Task SeedSampleDataAsync(ApplicationContext context)
     {
         // Seed, if necessary
         if (!context.TodoLists.Any())
@@ -26,6 +26,8 @@ public static class ApplicationDbContextSeed
                         new TodoItem { Title = "Water" }
                     }
             });
+
+
 
             await context.SaveChangesAsync();
         }

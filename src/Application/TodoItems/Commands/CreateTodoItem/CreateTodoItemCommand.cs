@@ -13,11 +13,11 @@ public class CreateTodoItemCommand : IRequest<int>
 
 public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, int>
 {
-    private readonly IGenericRepository<TodoItem> _todoItemRpository;
+    private readonly IRepositoryBase<TodoItem> _todoItemRepository;
 
-    public CreateTodoItemCommandHandler(IGenericRepository<TodoItem> todoItemRpository)
+    public CreateTodoItemCommandHandler(IRepositoryBase<TodoItem> todoItemRpository)
     {
-        _todoItemRpository = todoItemRpository;
+        _todoItemRepository = todoItemRpository;
     }
 
     public async Task<int> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
             Done = false
         };
 
-        var newEntity = await _todoItemRpository.AddAsync(entity, cancellationToken);
+        var newEntity = await _todoItemRepository.AddAsync(entity, cancellationToken);
 
         return newEntity.Id;
     }

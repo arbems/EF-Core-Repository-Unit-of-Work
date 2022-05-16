@@ -19,16 +19,18 @@ public class UpdateTodoItemDetailCommand : IRequest
 
 public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand>
 {
-    private readonly IGenericRepository<TodoItem> _todoItemRpository;
+    private readonly IRepositoryBase<TodoItem> _todoItemRepository;
+    private readonly IReadRepositoryBase<TodoItem> _todoItemReadRepository;
 
-    public UpdateTodoItemDetailCommandHandler(IGenericRepository<TodoItem> todoItemRpository)
+    public UpdateTodoItemDetailCommandHandler(IRepositoryBase<TodoItem> todoItemRpository, IReadRepositoryBase<TodoItem> todoItemReadRepository)
     {
-        _todoItemRpository = todoItemRpository;
+        _todoItemRepository = todoItemRpository;
+        _todoItemReadRepository = todoItemReadRepository;
     }
 
     public async Task<Unit> Handle(UpdateTodoItemDetailCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _todoItemRpository.GetById(new object[] { request.Id }, cancellationToken);
+        var entity = await _todoItemReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
         {
@@ -39,7 +41,7 @@ public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItem
         entity.Priority = request.Priority;
         entity.Note = request.Note;
 
-        await _todoItemRpository.UpdateAsync(entity, cancellationToken);
+        await _todoItemRepository.UpdateAsync(entity, cancellationToken);
 
         return Unit.Value;
     }

@@ -13,23 +13,25 @@ public class DeleteTodoItemCommand : IRequest
 
 public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
 {
-    private readonly IGenericRepository<TodoItem> _todoItemRpository;
+    private readonly IRepositoryBase<TodoItem> _todoItemRepository;
+    private readonly IReadRepositoryBase<TodoItem> _todoItemReadRepository;
 
-    public DeleteTodoItemCommandHandler(IGenericRepository<TodoItem> todoItemRpository)
+    public DeleteTodoItemCommandHandler(IRepositoryBase<TodoItem> todoItemRepository, IReadRepositoryBase<TodoItem> todoItemReadRepository)
     {
-        _todoItemRpository = todoItemRpository;
+        _todoItemRepository = todoItemRepository;
+        _todoItemReadRepository = todoItemReadRepository;
     }
 
     public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _todoItemRpository.GetById(new object[] { request.Id }, cancellationToken);
+        var entity = await _todoItemReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
         {
             throw new NotFoundException(nameof(TodoItem), request.Id);
         }
 
-        await _todoItemRpository.DeleteAsync(entity, cancellationToken);
+        await _todoItemRepository.DeleteAsync(entity, cancellationToken);
 
         return Unit.Value;
     }

@@ -11,9 +11,9 @@ public class CreateTodoListCommand : IRequest<int>
 
 public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListCommand, int>
 {
-    private readonly IGenericRepository<TodoList> _todoListRpository;
+    private readonly IRepositoryBase<TodoList> _todoListRpository;
 
-    public CreateTodoListCommandHandler(IGenericRepository<TodoList> todoListRpository)
+    public CreateTodoListCommandHandler(IRepositoryBase<TodoList> todoListRpository)
     {
         _todoListRpository = todoListRpository;
     }

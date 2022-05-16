@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Application.Common.Interfaces
 {
-    public interface ITodoListRepository : IGenericRepository<TodoList>
+    public interface ITodoListRepository : IRepositoryBase<TodoList>
     {
         IEnumerable<TodoList> GetTodoListWithMoreItems(int count);
     }

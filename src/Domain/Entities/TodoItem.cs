@@ -7,8 +7,6 @@ public class TodoItem : AuditableEntity
 {
     public int Id { get; set; }
 
-    public int ListId { get; set; }
-
     public string? Title { get; set; }
 
     public string? Note { get; set; }
@@ -27,5 +25,6 @@ public class TodoItem : AuditableEntity
         }
     }
 
+    public int ListId { get; set; }
     public TodoList List { get; set; } = null!;
 }

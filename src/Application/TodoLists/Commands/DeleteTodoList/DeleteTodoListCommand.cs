@@ -2,7 +2,6 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.TodoLists.Commands.DeleteTodoList;
 
@@ -13,25 +12,25 @@ public class DeleteTodoListCommand : IRequest
 
 public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListCommand>
 {
-    private readonly IGenericRepository<TodoList> _todoListRpository;
+    private readonly IRepositoryBase<TodoList> _todoListRepository;
+    private readonly IReadRepositoryBase<TodoList> _todoListReadRepository;
 
-    public DeleteTodoListCommandHandler(IGenericRepository<TodoList> todoListRpository)
+    public DeleteTodoListCommandHandler(IRepositoryBase<TodoList> todoListRpository, IReadRepositoryBase<TodoList> todoListReadRepository)
     {
-        _todoListRpository = todoListRpository;
+        _todoListRepository = todoListRpository;
+        _todoListReadRepository = todoListReadRepository;
     }
 
     public async Task<Unit> Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _todoListRpository.GetAll()
-            .Where(l => l.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
+        var entity = await _todoListReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
         {
             throw new NotFoundException(nameof(TodoList), request.Id);
         }
 
-        await _todoListRpository.DeleteAsync(entity, cancellationToken);
+        await _todoListRepository.DeleteAsync(entity, cancellationToken);
 
         return Unit.Value;
     }

@@ -14,17 +14,19 @@ public class UpdateTodoListCommand : IRequest
 
 public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand>
 {
-    private readonly IGenericRepository<TodoList> _todoListRpository;
+    private readonly IRepositoryBase<TodoList> _todoListRepository;
+    private readonly IReadRepositoryBase<TodoList> _todoListReadRepository;
 
-    public UpdateTodoListCommandHandler(IGenericRepository<TodoList> todoListRpository)
+    public UpdateTodoListCommandHandler(IRepositoryBase<TodoList> todoListRepository, IReadRepositoryBase<TodoList> todoListReadRepository)
     {
-        _todoListRpository = todoListRpository;
+        _todoListRepository = todoListRepository;
+        _todoListReadRepository = todoListReadRepository;
     }
 
 
     public async Task<Unit> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _todoListRpository.GetById(new object[] { request.Id }, cancellationToken);
+        var entity = await _todoListReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
         {
@@ -33,7 +35,7 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
 
         entity.Title = request.Title;
 
-        await _todoListRpository.UpdateAsync(entity, cancellationToken);
+        await _todoListRepository.UpdateAsync(entity, cancellationToken);
 
         return Unit.Value;
     }

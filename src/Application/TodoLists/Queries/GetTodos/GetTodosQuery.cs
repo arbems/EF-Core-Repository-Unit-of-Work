@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.Common.Interfaces;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
@@ -14,12 +14,12 @@ public class GetTodosQuery : IRequest<TodosVm>
 
 public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
 {
-    private readonly IGenericRepository<TodoList> _todoListRpository;
+    private readonly IReadRepositoryBase<TodoList> _todoListReadRepository;
     private readonly IMapper _mapper;
 
-    public GetTodosQueryHandler(IGenericRepository<TodoList> todoListRpository, IMapper mapper)
+    public GetTodosQueryHandler(IReadRepositoryBase<TodoList> todoListReadRepository, IMapper mapper)
     {
-        _todoListRpository = todoListRpository;
+        _todoListReadRepository = todoListReadRepository;
         _mapper = mapper;
     }
 
@@ -32,7 +32,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
                 .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
                 .ToList(),
 
-            Lists = await _todoListRpository.GetAll()
+            Lists = await _todoListReadRepository.GetAll()
                 .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
                 .OrderBy(t => t.Title)
                 .ToListAsync(cancellationToken)

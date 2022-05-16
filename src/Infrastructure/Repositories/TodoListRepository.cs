@@ -1,15 +1,14 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence;
-using Infrastructure.Repositories;
 
 namespace Infrastructure.Repositories;
 
-public class TodoListRepository : GenericRepository<TodoList>, ITodoListRepository
+public class TodoListRepository : BaseRepository<TodoList>, ITodoListRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly ApplicationContext _dbContext;
 
-    public TodoListRepository(ApplicationDbContext dbContext) : base(dbContext)
+    public TodoListRepository(ApplicationContext dbContext) : base(dbContext)
     {
     }
 

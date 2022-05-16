@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Application.Common.Mappings;
 using Application.Common.Models;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 
@@ -17,19 +17,19 @@ public class GetTodoItemsWithPaginationQuery : IRequest<PaginatedList<TodoItemBr
 
 public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoItemsWithPaginationQuery, PaginatedList<TodoItemBriefDto>>
 {
-    private readonly IGenericRepository<TodoItem> _todoItemRpository;
+    private readonly IReadRepositoryBase<TodoItem> _todoItemReadRepository;
     private readonly IMapper _mapper;
 
-    public GetTodoItemsWithPaginationQueryHandler(IGenericRepository<TodoItem> todoItemRpository, IMapper mapper)
+    public GetTodoItemsWithPaginationQueryHandler(IReadRepositoryBase<TodoItem> todoItemReadRepository, IMapper mapper)
     {
-        _todoItemRpository = todoItemRpository;
+        _todoItemReadRepository = todoItemReadRepository;
         _mapper = mapper;
     }
 
     public async Task<PaginatedList<TodoItemBriefDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        return await _todoItemRpository
-            .Find(x => x.ListId == request.ListId)
+        return await _todoItemReadRepository
+            .GetAllBySpec(x => x.ListId == request.ListId)
             .OrderBy(x => x.Title)
             .ProjectTo<TodoItemBriefDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);

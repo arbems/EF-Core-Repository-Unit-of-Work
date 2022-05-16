@@ -32,9 +32,9 @@ if (app.Configuration.GetValue<bool>("UseInMemoryDatabase"))
     using (var scope = app.Services.CreateScope())
     {
         var scopeProvider = scope.ServiceProvider;
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
 
-        await ApplicationDbContextSeed.SeedSampleDataAsync(dbContext);
+        await ApplicationContextSeed.SeedSampleDataAsync(dbContext);
     }
 }
 

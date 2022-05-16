@@ -16,16 +16,18 @@ public class UpdateTodoItemCommand : IRequest
 
 public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand>
 {
-    private readonly IGenericRepository<TodoItem> _todoItemRpository;
+    private readonly IRepositoryBase<TodoItem> _todoItemRepository;
+    private readonly IReadRepositoryBase<TodoItem> _todoItemReadRepository;
 
-    public UpdateTodoItemCommandHandler(IGenericRepository<TodoItem> todoItemRpository)
+    public UpdateTodoItemCommandHandler(IRepositoryBase<TodoItem> todoItemRpository, IReadRepositoryBase<TodoItem> todoItemReadRepository)
     {
-        _todoItemRpository = todoItemRpository;
+        _todoItemRepository = todoItemRpository;
+        _todoItemReadRepository = todoItemReadRepository;
     }
 
     public async Task<Unit> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _todoItemRpository.GetById(new object[] { request.Id }, cancellationToken);
+        var entity = await _todoItemReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
         {
@@ -35,7 +37,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComman
         entity.Title = request.Title;
         entity.Done = request.Done;
 
-        await _todoItemRpository.UpdateAsync(entity, cancellationToken);
+        await _todoItemRepository.UpdateAsync(entity, cancellationToken);
 
         return Unit.Value;
     }
