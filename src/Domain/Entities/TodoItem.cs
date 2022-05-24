@@ -3,10 +3,8 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class TodoItem : AuditableEntity
+public class TodoItem : Entity
 {
-    public int Id { get; set; }
-
     public string? Title { get; set; }
 
     public string? Note { get; set; }
@@ -27,4 +25,14 @@ public class TodoItem : AuditableEntity
 
     public int ListId { get; set; }
     public TodoList List { get; set; } = null!;
+
+    public TodoItem() { }
+
+    public TodoItem(string? title, bool note, PriorityLevel priority, DateTime? reminder)
+    {
+        Title = title;
+        Done = note;
+        Priority = priority;
+        Reminder = reminder;
+    }
 }

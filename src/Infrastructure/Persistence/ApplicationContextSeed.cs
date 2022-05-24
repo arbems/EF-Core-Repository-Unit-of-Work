@@ -10,24 +10,22 @@ public static class ApplicationContextSeed
         // Seed, if necessary
         if (!context.TodoLists.Any())
         {
-            context.TodoLists.Add(new TodoList
+            var todoList = new TodoList
             {
+                Id = 1,
                 Title = "Shopping",
-                Colour = Colour.Blue,
-                Items =
-                    {
-                        new TodoItem { Title = "Apples", Done = true },
-                        new TodoItem { Title = "Milk", Done = true },
-                        new TodoItem { Title = "Bread", Done = true },
-                        new TodoItem { Title = "Toilet paper" },
-                        new TodoItem { Title = "Pasta" },
-                        new TodoItem { Title = "Tissues" },
-                        new TodoItem { Title = "Tuna" },
-                        new TodoItem { Title = "Water" }
-                    }
-            });
+                Colour = Colour.Blue
+            };
 
+            context.TodoLists.Add(todoList);
 
+            todoList.AddItem("Apples", true, Domain.Enums.PriorityLevel.Medium, DateTime.UtcNow);
+            todoList.AddItem("Milk", true, Domain.Enums.PriorityLevel.Medium, DateTime.UtcNow);
+            todoList.AddItem("Bread", true, Domain.Enums.PriorityLevel.High, DateTime.UtcNow);
+            todoList.AddItem("Pasta", false, Domain.Enums.PriorityLevel.None, DateTime.UtcNow);
+            todoList.AddItem("Tissues", false, Domain.Enums.PriorityLevel.Medium, DateTime.UtcNow);
+            todoList.AddItem("Tuna", false, Domain.Enums.PriorityLevel.None, DateTime.UtcNow);
+            todoList.AddItem("Water", false, Domain.Enums.PriorityLevel.Medium, DateTime.UtcNow);
 
             await context.SaveChangesAsync();
         }

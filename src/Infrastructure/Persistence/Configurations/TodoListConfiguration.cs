@@ -16,5 +16,11 @@ public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
 
         builder
             .OwnsOne(b => b.Colour);
+
+        // la llamada a SetPropertyAccessMode indica a EF Core 
+        // que debe acceder a la propiedad Items a través de su campo.
+        var navigation = builder.Metadata.FindNavigation(nameof(TodoList.Items));
+        //EF accede a la propiedad de colección de elementos a través de su campo de respaldo
+        navigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
