@@ -1,6 +1,5 @@
 using EFCoreRepositoryUnitofWork.Persistence;
 using Infrastructure;
-using Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 

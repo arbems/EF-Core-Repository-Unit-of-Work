@@ -1,5 +1,4 @@
 ﻿using EFCoreRepositoryUnitofWork.Entities;
-using Infrastructure.Persistence;
 
 namespace EFCoreRepositoryUnitofWork.Persistence;
 

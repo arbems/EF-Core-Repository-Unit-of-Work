@@ -1,7 +1,5 @@
 ﻿using EFCoreRepositoryUnitofWork.Entities;
 using EFCoreRepositoryUnitofWork.Interfaces;
-using Infrastructure.Persistence;
-using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreRepositoryUnitofWork.Persistence.Repositories;

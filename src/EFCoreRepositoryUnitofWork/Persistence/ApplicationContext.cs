@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
 
-namespace Infrastructure.Persistence;
+namespace EFCoreRepositoryUnitofWork.Persistence;
 
 public class ApplicationContext : DbContext, IApplicationContext
 {

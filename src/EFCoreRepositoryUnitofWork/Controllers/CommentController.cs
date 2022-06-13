@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace PublicApi.Controllers;
+namespace EFCoreRepositoryUnitofWork.Controllers;
 
 [ApiController]
 [Route("[Controller]")]
@@ -18,7 +18,7 @@ public class CommentController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<Post> Get()
+    public ActionResult<Comment> Get()
     {
         var results = _commentRepository.GetAll();
 
@@ -37,7 +37,7 @@ public class CommentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Post>> Post([FromForm] Comment entity)
+    public async Task<ActionResult<Comment>> Comment([FromForm] Comment entity)
     {
         if (entity is null)
             return BadRequest(ModelState);

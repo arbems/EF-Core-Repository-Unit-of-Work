@@ -1,11 +1,10 @@
 ﻿using EFCoreRepositoryUnitofWork.Interfaces;
-using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Repositories;
+namespace EFCoreRepositoryUnitofWork.Persistence.Repositories;
 
-public class BaseRepository<TEntity> : IRepositoryBase<TEntity>, IReadRepositoryBase<TEntity> where TEntity : class
+public class BaseRepository<TEntity> : IRepository<TEntity>, IReadRepository<TEntity> where TEntity : class
 {
     private readonly ApplicationContext _context;
     public IUnitOfWork UnitOfWork
@@ -82,7 +81,7 @@ public class BaseRepository<TEntity> : IRepositoryBase<TEntity>, IReadRepository
         IQueryable<TEntity> queryable = GetAll();
         foreach (Expression<Func<TEntity, object>> includeProperty in includeProperties)
         {
-            queryable = queryable.Include<TEntity, object>(includeProperty);
+            queryable = queryable.Include(includeProperty);
         }
 
         return queryable;
